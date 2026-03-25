@@ -2,34 +2,50 @@ name: iOS Build
 
 on:
   push:
-    branches: [ main ] # Oder dein Standard-Branch
+    branches: [ main ]
+  workflow_dispatch: # Erlaubt es dir, den Build manuell zu starten
 
 jobs:
   build:
-    runs-on: macos-latest # WICHTIG: Xcode läuft nur auf macOS
+    runs-on: macos-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setze Xcode-Version
-        run: sudo xcode-select -s /Applications/Xcode_15.2.app # Version anpassen
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 'latest-stable' # Sucht automatisch die stabilste Version
 
       - name: Install Dependencies
         run: |
-          # Falls du CocoaPods nutzt:
+          # Falls du Swift Packages nutzt, werden diese automatisch geladen.
+          # Falls du CocoaPods nutzt, entkommentiere die nächste Zeile:
           # pod install
-          echo "Dependencies werden installiert..."
+          echo "Vorbereitung abgeschlossen..."
 
-      - name: Archivieren und Exportieren
+      - name: Build Archive
         run: |
+          # Ersetze 'Sonos-Airplay' und den Scheme-Namen durch deine echten Projektdaten!
           xcodebuild archive \
-            -project YourProject.xcodeproj \
-            -scheme YourScheme \
-            -archivePath build/YourApp.xcarchive \
-            -allowProvisioningUpdates
+            -project "Sonos-Airplay.xcodeproj" \
+            -scheme "Sonos-Airplay" \
+            -archivePath build/Sonos-Airplay.xcarchive \
+            -sdk iphoneos \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=""
 
-          xcodebuild -exportArchive \
-            -archivePath build/YourApp.xcarchive \
-            -exportOptionsPlist exportOptions.plist \
-            -exportPath build/output
+      - name: Export IPA (Unsigned)
+        run: |
+          # Hinweis: Ohne Zertifikate erstellen wir hier erst mal die Struktur.
+          mkdir -p build/output/Payload
+          cp -R build/Sonos-Airplay.xcarchive/Products/Applications/*.app build/output/Payload/
+          cd build/output && zip -r Sonos-Airplay_unsigned.ipa Payload
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sonos-Airplay-IPA
+          path: build/output/Sonos-Airplay_unsigned.ipa
