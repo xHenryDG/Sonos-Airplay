@@ -1,0 +1,35 @@
+name: Build IPA
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Code holen
+        uses: actions/checkout@v3
+
+      - name: Xcode Version setzen
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: App bauen
+        run: |
+          xcodebuild -scheme YourApp \
+          -sdk iphoneos \
+          -configuration Release \
+          archive -archivePath $PWD/build/App.xcarchive
+
+      - name: IPA exportieren
+        run: |
+          xcodebuild -exportArchive \
+          -archivePath $PWD/build/App.xcarchive \
+          -exportOptionsPlist ExportOptions.plist \
+          -exportPath $PWD/build
+
+      - name: IPA hochladen
+        uses: actions/upload-artifact@v3
+        with:
+          name: app
+          path: build/*.ipa
