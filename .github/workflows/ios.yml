@@ -1,2 +1,35 @@
-- name: iOS Build Action
-  uses: yukiarrr/ios-build-action@v1.12.0
+name: iOS Build
+
+on:
+  push:
+    branches: [ main ] # Oder dein Standard-Branch
+
+jobs:
+  build:
+    runs-on: macos-latest # WICHTIG: Xcode läuft nur auf macOS
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setze Xcode-Version
+        run: sudo xcode-select -s /Applications/Xcode_15.2.app # Version anpassen
+
+      - name: Install Dependencies
+        run: |
+          # Falls du CocoaPods nutzt:
+          # pod install
+          echo "Dependencies werden installiert..."
+
+      - name: Archivieren und Exportieren
+        run: |
+          xcodebuild archive \
+            -project YourProject.xcodeproj \
+            -scheme YourScheme \
+            -archivePath build/YourApp.xcarchive \
+            -allowProvisioningUpdates
+
+          xcodebuild -exportArchive \
+            -archivePath build/YourApp.xcarchive \
+            -exportOptionsPlist exportOptions.plist \
+            -exportPath build/output
