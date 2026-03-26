@@ -21,16 +21,21 @@ jobs:
       - name: Install ldid (Pseudo-Signing)
         run: brew install ldid
 
-      # Zeigt im Log wo die Dateien liegen
+      # Zeigt GENAU was ausgecheckt wurde
       - name: Debug - List Files
         run: |
-          find . -maxdepth 3 -name "*.xcodeproj"
+          echo "=== Arbeitsverzeichnis ==="
+          pwd
+          echo "=== Komplette Ordnerstruktur ==="
+          find . -not -path "*/.git/*" | sort
+          echo "=== Suche .xcodeproj ==="
+          find . -not -path "*/.git/*" -name "*.xcodeproj" -type d
           xcodebuild -version
 
       - name: Build Archive
         run: |
-          # Tiefer suchen – kein maxdepth-Limit
-          PROJECT_PATH=$(find . -name "*.xcodeproj" -not -path "*/.git/*" | head -n 1)
+          # .xcodeproj ist ein Verzeichnis auf macOS, daher -type d
+          PROJECT_PATH=$(find . -not -path "*/.git/*" -name "*.xcodeproj" -type d | head -n 1)
           SCHEME_NAME=$(basename "$PROJECT_PATH" .xcodeproj)
 
           echo "Projekt: $PROJECT_PATH"
