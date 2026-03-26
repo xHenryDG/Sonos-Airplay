@@ -18,35 +18,18 @@ jobs:
         with:
           xcode-version: 'latest-stable'
 
-      - name: Install ldid (Pseudo-Signing)
+      - name: Install ldid
         run: brew install ldid
 
-      # Zeigt GENAU was ausgecheckt wurde
-      - name: Debug - List Files
-        run: |
-          echo "=== Arbeitsverzeichnis ==="
-          pwd
-          echo "=== Komplette Ordnerstruktur ==="
-          find . -not -path "*/.git/*" | sort
-          echo "=== Suche .xcodeproj ==="
-          find . -not -path "*/.git/*" -name "*.xcodeproj" -type d
-          xcodebuild -version
+      # Zeigt die ECHTE Ordnerstruktur im Log – zum Nachschauen
+      - name: Debug - Show full tree
+        run: find . -not -path "*/.git/*" | sort
 
       - name: Build Archive
         run: |
-          # .xcodeproj ist ein Verzeichnis auf macOS, daher -type d
-          PROJECT_PATH=$(find . -not -path "*/.git/*" -name "*.xcodeproj" -type d | head -n 1)
-          SCHEME_NAME=$(basename "$PROJECT_PATH" .xcodeproj)
-
-          echo "Projekt: $PROJECT_PATH"
-          echo "Scheme:  $SCHEME_NAME"
-
-          # Abbruch wenn nichts gefunden
-          test -n "$PROJECT_PATH" || (echo "ERROR: Kein .xcodeproj gefunden!" && exit 1)
-
           xcodebuild archive \
-            -project "$PROJECT_PATH" \
-            -scheme "$SCHEME_NAME" \
+            -project SAB3/SonosAirBridge.xcodeproj \
+            -scheme SonosAirBridge \
             -configuration Release \
             -archivePath build/Output.xcarchive \
             -destination 'generic/platform=iOS' \
@@ -56,27 +39,20 @@ jobs:
             SKIP_INSTALL=NO \
             INSTALL_PATH=/Applications
 
-      # Zeigt was wirklich im Archive gelandet ist
-      - name: Debug - Archive Contents
-        run: find build/Output.xcarchive -name "*.app" | head -10
-
-      - name: Pseudo-Sign & Package IPA
+      - name: Package IPA
         run: |
           APP=$(find build/Output.xcarchive -name "*.app" -not -name "*.appex" | head -n 1)
-          echo "Gefunden: $APP"
-          test -d "$APP" || (echo "ERROR: Kein .app im Archive – Build fehlgeschlagen!" && exit 1)
-
-          # Pseudo-Signatur mit ldid (nötig für AltStore / Sideloadly)
+          echo "App gefunden: $APP"
+          test -d "$APP" || (echo "ERROR: Kein .app gefunden!" && exit 1)
           ldid -S "$APP"
+          mkdir -p Payload
+          cp -R "$APP" Payload/
+          zip -r SonosAirBridge.ipa Payload/
+          ls -lh SonosAirBridge.ipa
 
-          mkdir -p build/output/Payload
-          cp -R "$APP" build/output/Payload/
-          cd build/output && zip -r Sonos-Airplay_unsigned.ipa Payload/
-          ls -lh Sonos-Airplay_unsigned.ipa
-
-      - name: Upload Artifact
+      - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: Sonos-Airplay-IPA
-          path: build/output/Sonos-Airplay_unsigned.ipa
+          name: SonosAirBridge-IPA
+          path: SonosAirBridge.ipa
           retention-days: 30
