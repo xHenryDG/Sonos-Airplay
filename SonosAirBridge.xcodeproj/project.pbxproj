@@ -1,0 +1,106 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+
+/* PBXBuildFile */
+		B01 /* SonosAirBridgeApp.swift */       = {isa=PBXBuildFile;fileRef=F01;};
+		B02 /* Models.swift */                  = {isa=PBXBuildFile;fileRef=F02;};
+		B03 /* NetworkPermissionManager.swift */ = {isa=PBXBuildFile;fileRef=F03;};
+		B04 /* SonosDiscovery.swift */           = {isa=PBXBuildFile;fileRef=F04;};
+		B05 /* GroupStore.swift */               = {isa=PBXBuildFile;fileRef=F05;};
+		B06 /* BridgeManager.swift */            = {isa=PBXBuildFile;fileRef=F06;};
+		B07 /* AppState.swift */                 = {isa=PBXBuildFile;fileRef=F07;};
+		B08 /* RootView.swift */                 = {isa=PBXBuildFile;fileRef=F08;};
+		B09 /* MainTabView.swift */              = {isa=PBXBuildFile;fileRef=F09;};
+		B10 /* SpeakerListView.swift */          = {isa=PBXBuildFile;fileRef=F10;};
+		B11 /* GroupsView.swift */               = {isa=PBXBuildFile;fileRef=F11;};
+		B12 /* LogView.swift */                  = {isa=PBXBuildFile;fileRef=F12;};
+		B14 /* RAOPServer.swift */               = {isa=PBXBuildFile;fileRef=F14;};
+
+/* PBXFileReference */
+		E00 /* SonosAirBridge.app */ = {isa=PBXFileReference;explicitFileType=wrapper.application;includeInIndex=0;path=SonosAirBridge.app;sourceTree=BUILT_PRODUCTS_DIR;};
+		F01 /* SonosAirBridgeApp.swift */       = {isa=PBXFileReference;lastKnownFileType=sourcecode.swift;path=SonosAirBridgeApp.swift;sourceTree="<group>";};
+		F02 /* Models.swift */                  = {isa=PBXFileReference;lastKnownFileType=sourcecode.swift;path=Models.swift;sourceTree="<group>";};
+		F03 /* NetworkPermissionManager.swift */ = {isa=PBXFileReference;lastKnownFileType=sourcecode.swift;path=NetworkPermissionManager.swift;sourceTree="<group>";};
+		F04 /* SonosDiscovery.swift */           = {isa=PBXFileReference;lastKnownFileType=sourcecode.swift;path=SonosDiscovery.swift;sourceTree="<group>";};
+		F05 /* GroupStore.swift */               = {isa=PBXFileReference;lastKnownFileType=sourcecode.swift;path=GroupStore.swift;sourceTree="<group>";};
+		F06 /* BridgeManager.swift */            = {isa=PBXFileReference;lastKnownFileType=sourcecode.swift;path=BridgeManager.swift;sourceTree="<group>";};
+		F07 /* AppState.swift */                 = {isa=PBXFileReference;lastKnownFileType=sourcecode.swift;path=AppState.swift;sourceTree="<group>";};
+		F08 /* RootView.swift */                 = {isa=PBXFileReference;lastKnownFileType=sourcecode.swift;path=RootView.swift;sourceTree="<group>";};
+		F09 /* MainTabView.swift */              = {isa=PBXFileReference;lastKnownFileType=sourcecode.swift;path=MainTabView.swift;sourceTree="<group>";};
+		F10 /* SpeakerListView.swift */          = {isa=PBXFileReference;lastKnownFileType=sourcecode.swift;path=SpeakerListView.swift;sourceTree="<group>";};
+		F11 /* GroupsView.swift */               = {isa=PBXFileReference;lastKnownFileType=sourcecode.swift;path=GroupsView.swift;sourceTree="<group>";};
+		F12 /* LogView.swift */                  = {isa=PBXFileReference;lastKnownFileType=sourcecode.swift;path=LogView.swift;sourceTree="<group>";};
+		F14 /* RAOPServer.swift */               = {isa=PBXFileReference;lastKnownFileType=sourcecode.swift;path=RAOPServer.swift;sourceTree="<group>";};
+		F13 /* Info.plist */                     = {isa=PBXFileReference;lastKnownFileType=text.plist.xml;path=Info.plist;sourceTree="<group>";};
+
+/* PBXFrameworksBuildPhase */
+		P20 = {isa=PBXFrameworksBuildPhase;buildActionMask=2147483647;files=();runOnlyForDeploymentPostprocessing=0;};
+
+/* PBXGroup */
+		G00 = {isa=PBXGroup;children=(G01,G02);sourceTree="<group>";};
+		G01 /* SonosAirBridge */ = {
+			isa=PBXGroup;
+			children=(F01,F02,F03,F04,F05,F06,F07,F08,F09,F10,F11,F12,F13,F14);
+			path=SonosAirBridge;
+			sourceTree="<group>";
+		};
+		G02 /* Products */ = {isa=PBXGroup;children=(E00);name=Products;sourceTree="<group>";};
+
+/* PBXNativeTarget */
+		T00 /* SonosAirBridge */ = {
+			isa=PBXNativeTarget;
+			buildConfigurationList=C00;
+			buildPhases=(P10,P20,P30);
+			buildRules=();
+			dependencies=();
+			name=SonosAirBridge;
+			productName=SonosAirBridge;
+			productReference=E00;
+			productType="com.apple.product-type.application";
+		};
+
+/* PBXProject */
+		PRJ = {
+			isa=PBXProject;
+			attributes={BuildIndependentTargetsInParallel=1;LastSwiftUpdateCheck=1500;LastUpgradeCheck=1500;TargetAttributes={T00={CreatedOnToolsVersion=15.0;};};};
+			buildConfigurationList=C01;
+			compatibilityVersion="Xcode 14.0";
+			developmentRegion=de;
+			hasScannedForEncodings=0;
+			knownRegions=(de,Base);
+			mainGroup=G00;
+			productRefGroup=G02;
+			projectDirPath="";
+			projectRoot="";
+			targets=(T00);
+		};
+
+/* PBXResourcesBuildPhase */
+		P30 = {isa=PBXResourcesBuildPhase;buildActionMask=2147483647;files=();runOnlyForDeploymentPostprocessing=0;};
+
+/* PBXSourcesBuildPhase */
+		P10 = {
+			isa=PBXSourcesBuildPhase;
+			buildActionMask=2147483647;
+			files=(B01,B02,B03,B04,B05,B06,B07,B08,B09,B10,B11,B12
+				B14 /* RAOPServer.swift */,
+			);
+			runOnlyForDeploymentPostprocessing=0;
+		};
+
+/* XCBuildConfiguration */
+		X10 /* Debug Project */   = {isa=XCBuildConfiguration;buildSettings={ALWAYS_SEARCH_USER_PATHS=NO;CLANG_ENABLE_MODULES=YES;CLANG_ENABLE_OBJC_ARC=YES;COPY_PHASE_STRIP=NO;DEBUG_INFORMATION_FORMAT=dwarf;ENABLE_STRICT_OBJC_MSGSEND=YES;ENABLE_TESTABILITY=YES;ENABLE_USER_SCRIPT_SANDBOXING=YES;GCC_DYNAMIC_NO_PIC=NO;GCC_NO_COMMON_BLOCKS=YES;GCC_OPTIMIZATION_LEVEL=0;GCC_PREPROCESSOR_DEFINITIONS=("DEBUG=1","$(inherited)");GCC_WARN_64_TO_32_BIT_CONVERSION=YES;GCC_WARN_ABOUT_RETURN_TYPE=YES_ERROR;GCC_WARN_UNDECLARED_SELECTOR=YES;GCC_WARN_UNINITIALIZED_AUTOS=YES_AGGRESSIVE;GCC_WARN_UNUSED_FUNCTION=YES;GCC_WARN_UNUSED_VARIABLE=YES;IPHONEOS_DEPLOYMENT_TARGET=16.0;ONLY_ACTIVE_ARCH=YES;SDKROOT=iphoneos;SWIFT_ACTIVE_COMPILATION_CONDITIONS=DEBUG;SWIFT_OPTIMIZATION_LEVEL="-Onone";};name=Debug;};
+		X11 /* Release Project */ = {isa=XCBuildConfiguration;buildSettings={ALWAYS_SEARCH_USER_PATHS=NO;CLANG_ENABLE_MODULES=YES;CLANG_ENABLE_OBJC_ARC=YES;ENABLE_NS_ASSERTIONS=NO;ENABLE_STRICT_OBJC_MSGSEND=YES;ENABLE_USER_SCRIPT_SANDBOXING=YES;GCC_NO_COMMON_BLOCKS=YES;GCC_WARN_64_TO_32_BIT_CONVERSION=YES;GCC_WARN_ABOUT_RETURN_TYPE=YES_ERROR;IPHONEOS_DEPLOYMENT_TARGET=16.0;SDKROOT=iphoneos;SWIFT_COMPILATION_MODE=wholemodule;VALIDATE_PRODUCT=YES;};name=Release;};
+		X20 /* Debug Target */    = {isa=XCBuildConfiguration;buildSettings={ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon;CODE_SIGN_STYLE=Automatic;CURRENT_PROJECT_VERSION=3;DEVELOPMENT_TEAM="";GENERATE_INFOPLIST_FILE=NO;INFOPLIST_FILE=SonosAirBridge/Info.plist;IPHONEOS_DEPLOYMENT_TARGET=16.0;MARKETING_VERSION=3.0;PRODUCT_BUNDLE_IDENTIFIER=com.sonosairbridge.app;PRODUCT_NAME="$(TARGET_NAME)";SWIFT_EMIT_LOC_STRINGS=YES;SWIFT_VERSION=5.0;TARGETED_DEVICE_FAMILY="1,2";};name=Debug;};
+		X21 /* Release Target */  = {isa=XCBuildConfiguration;buildSettings={ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon;CODE_SIGN_STYLE=Automatic;CURRENT_PROJECT_VERSION=3;DEVELOPMENT_TEAM="";GENERATE_INFOPLIST_FILE=NO;INFOPLIST_FILE=SonosAirBridge/Info.plist;IPHONEOS_DEPLOYMENT_TARGET=16.0;MARKETING_VERSION=3.0;PRODUCT_BUNDLE_IDENTIFIER=com.sonosairbridge.app;PRODUCT_NAME="$(TARGET_NAME)";SWIFT_EMIT_LOC_STRINGS=YES;SWIFT_VERSION=5.0;TARGETED_DEVICE_FAMILY="1,2";};name=Release;};
+
+/* XCConfigurationList */
+		C00 = {isa=XCConfigurationList;buildConfigurations=(X20,X21);defaultConfigurationIsVisible=0;defaultConfigurationName=Release;};
+		C01 = {isa=XCConfigurationList;buildConfigurations=(X10,X11);defaultConfigurationIsVisible=0;defaultConfigurationName=Release;};
+	};
+	rootObject = PRJ;
+}
