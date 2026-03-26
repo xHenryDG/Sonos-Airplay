@@ -29,11 +29,15 @@ jobs:
 
       - name: Build Archive
         run: |
-          PROJECT_PATH=$(find . -name "*.xcodeproj" | head -n 1)
+          # Tiefer suchen – kein maxdepth-Limit
+          PROJECT_PATH=$(find . -name "*.xcodeproj" -not -path "*/.git/*" | head -n 1)
           SCHEME_NAME=$(basename "$PROJECT_PATH" .xcodeproj)
 
           echo "Projekt: $PROJECT_PATH"
           echo "Scheme:  $SCHEME_NAME"
+
+          # Abbruch wenn nichts gefunden
+          test -n "$PROJECT_PATH" || (echo "ERROR: Kein .xcodeproj gefunden!" && exit 1)
 
           xcodebuild archive \
             -project "$PROJECT_PATH" \
