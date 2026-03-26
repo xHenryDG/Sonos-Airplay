@@ -18,36 +18,56 @@ jobs:
         with:
           xcode-version: 'latest-stable'
 
-      # Dieser Schritt zeigt dir im Log genau an, wo deine Dateien liegen
+      - name: Install ldid (Pseudo-Signing)
+        run: brew install ldid
+
+      # Zeigt im Log wo die Dateien liegen
       - name: Debug - List Files
-        run: find . -maxdepth 2 -name "*.xcodeproj"
+        run: |
+          find . -maxdepth 3 -name "*.xcodeproj"
+          xcodebuild -version
 
       - name: Build Archive
         run: |
-          # SUCHE DIE DATEI AUTOMATISCH (falls sie in einem Unterordner liegt)
           PROJECT_PATH=$(find . -name "*.xcodeproj" | head -n 1)
-          # EXTRAHIERE DEN NAMEN OHNE .xcodeproj
           SCHEME_NAME=$(basename "$PROJECT_PATH" .xcodeproj)
-          
-          echo "Baue Projekt: $PROJECT_PATH mit Scheme: $SCHEME_NAME"
+
+          echo "Projekt: $PROJECT_PATH"
+          echo "Scheme:  $SCHEME_NAME"
 
           xcodebuild archive \
             -project "$PROJECT_PATH" \
             -scheme "$SCHEME_NAME" \
+            -configuration Release \
             -archivePath build/Output.xcarchive \
-            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY=""
+            CODE_SIGN_IDENTITY="" \
+            SKIP_INSTALL=NO \
+            INSTALL_PATH=/Applications
 
-      - name: Export IPA (Unsigned)
+      # Zeigt was wirklich im Archive gelandet ist
+      - name: Debug - Archive Contents
+        run: find build/Output.xcarchive -name "*.app" | head -10
+
+      - name: Pseudo-Sign & Package IPA
         run: |
+          APP=$(find build/Output.xcarchive -name "*.app" -not -name "*.appex" | head -n 1)
+          echo "Gefunden: $APP"
+          test -d "$APP" || (echo "ERROR: Kein .app im Archive – Build fehlgeschlagen!" && exit 1)
+
+          # Pseudo-Signatur mit ldid (nötig für AltStore / Sideloadly)
+          ldid -S "$APP"
+
           mkdir -p build/output/Payload
-          cp -R build/Output.xcarchive/Products/Applications/*.app build/output/Payload/
-          cd build/output && zip -r Sonos-Airplay_unsigned.ipa Payload
-          
+          cp -R "$APP" build/output/Payload/
+          cd build/output && zip -r Sonos-Airplay_unsigned.ipa Payload/
+          ls -lh Sonos-Airplay_unsigned.ipa
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Sonos-Airplay-IPA
           path: build/output/Sonos-Airplay_unsigned.ipa
+          retention-days: 30
